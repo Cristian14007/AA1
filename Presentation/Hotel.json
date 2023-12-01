@@ -1,0 +1,42 @@
+[
+    {
+        "ID": 1,
+        "Nombre": "Hotel Sol Brillante",
+        "Direccion": "123 Calle Sol, Ciudad Sol",
+        "Calificacion": 4,
+        "Descripcion": "Un hermoso hotel con vistas al mar y excelente servicio.",
+        "Telefono": "555-1234"
+    },
+    {
+        "ID": 2,
+        "Nombre": "Alojamiento Luna",
+        "Direccion": "456 Avenida Luna, Ciudad Luna",
+        "Calificacion": 5,
+        "Descripcion": "Lujoso hotel con instalaciones modernas y spa de primera clase.",
+        "Telefono": "555-5678"
+    },
+    {
+        "ID": 3,
+        "Nombre": "Posada Estrella",
+        "Direccion": "789 Camino Estrella, Pueblo Estrella",
+        "Calificacion": 3,
+        "Descripcion": "Acogedor y económico, ideal para viajeros que buscan comodidad a buen precio.",
+        "Telefono": "555-9012"
+    },
+    {
+        "ID": 4,
+        "Nombre": "Hotel Aventura",
+        "Direccion": "321 Calle Aventura, Ciudad Aventura",
+        "Calificacion": 4,
+        "Descripcion": "Perfecto para aventureros, cerca de rutas de senderismo y parques naturales.",
+        "Telefono": "555-3456"
+    },
+    {
+        "ID": 5,
+        "Nombre": "Retiro Tranquilo",
+        "Direccion": "654 Calle Paz, Pueblo Tranquilo",
+        "Calificacion": 5,
+        "Descripcion": "Una escapada tranquila con un hermoso jardín y un ambiente relajante.",
+        "Telefono": "555-7890"
+    }
+]

@@ -1,10 +1,11 @@
+using AA1.Models;
 namespace AA1.Business
 {
     public interface IAA1AccountService
     {
-        void MakeDeposit(string accountNumber, decimal amount, string note);
-        void MakeWithdrawal(string accountNumber, decimal amount, string note);
-        string GetAccountHistory(string accountNumber);
+       void RegistrarUsuario(AA1Account nuevoUsuario);
+        AA1Account ObtenerUsuarioPorNombre(string username);
+
 
     }
 }

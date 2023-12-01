@@ -1,54 +1,126 @@
 ﻿using AA1.Models;
 using AA1.Business;
 using AA1.Data;
-using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 
-var serviceCollection = new ServiceCollection();
-serviceCollection.AddTransient<IAA1AccountService, AA1AccountService>();
-serviceCollection.AddSingleton<IAA1AccountRepository, AA1AccountRepository>();
+namespace AA1.Presentation
+{
+class Program
+{
+    // Instancias de los repositorios
+    static IAA1AccountRepository usuarioRepository = new AA1AccountRepository();
+    static IHotelRepository hotelRepository = new HotelRepository();
+    static IReservaRepository reservaRepository = new ReservaRepository();
 
-var serviceProvider = serviceCollection.BuildServiceProvider();
-var AA1AccountService = serviceProvider.GetService<IAA1AccountService>();
-AA1AccountService?.MakeDeposit("1", 1000, "Propina");
-AA1AccountService?.MakeWithdrawal("1", 500, "Pago");
-Console.WriteLine(AA1AccountService?.GetAccountHistory("1"));
+    // Instancias de los servicios
+    static AA1AccountService usuarioService = new AA1AccountService(usuarioRepository);
+    static HotelService hotelService = new HotelService(hotelRepository);
+    static ReservaService reservaService = new ReservaService(reservaRepository, hotelRepository, usuarioRepository);
 
-/*
-var AA1AccountRepository = new AA1AccountRepository();
-var AA1AccountService = new AA1AccountService(AA1AccountRepository);
-AA1AccountService.MakeDeposit("1", 1000,"Propina");
-AA1AccountService.MakeWithdrawal("1", 500, "Pago");
-Console.WriteLine(AA1AccountService.GetAccountHistory("1")); 
-*/
+    static void Main(string[] args)
+    {
+        bool salir = false;
+        while (!salir)
+        {
+            Console.WriteLine("\nBienvenido a Booking");
+            Console.WriteLine("1. Crear un usuario");
+            Console.WriteLine("2. Ver hoteles");
+            Console.WriteLine("3. Reservar hoteles");
+            Console.WriteLine("4. Ver reservas por usuario");
+            Console.WriteLine("5. Salir");
+            Console.Write("Seleccione una opción: ");
 
-AA1Account AA1Account = new AA1Account("Alex",100);
-var tostring = AA1Account.ToString();
-try {
-    AA1Account.MakeDeposit(100,DateTime.Now,"Abrir cuenta");
-} catch (Exception e) {
-    Console.WriteLine(e.ToString());
+            string opcion = Console.ReadLine();
+            switch (opcion)
+            {
+                case "1":
+                    CrearUsuario();
+                    break;
+                case "2":
+                    VerHoteles();
+                    break;
+                case "3":
+                    ReservarHotel();
+                    break;
+                case "4":
+                    VerReservasPorUsuario();
+                    break;
+                case "5":
+                    salir = true;
+                    break;
+                default:
+                    Console.WriteLine("Opción no válida, intente nuevamente.");
+                    break;
+            }
+        }
+    }
+
+   static void CrearUsuario()
+{
+    Console.Write("Ingrese nombre de usuario: ");
+    string username = Console.ReadLine();
+    Console.Write("Ingrese email: ");
+    string email = Console.ReadLine();
+    Console.Write("Ingrese contraseña: ");
+    string password = Console.ReadLine(); // Considera usar métodos seguros para manejar contraseñas
+
+    // Crear el usuario (aquí podrías agregar validaciones adicionales)
+    AA1Account nuevoUsuario = new AA1Account
+    {
+        Username = username,
+        Email = email,
+        Password = password, // En una aplicación real, la contraseña debe ser encriptada
+        CreatedAt = DateTime.Now,
+        IsAdmin = false // o determinar basado en la lógica de tu aplicación
+    };
+
+    try
+    {
+        usuarioService.RegistrarUsuario(nuevoUsuario);
+        Console.WriteLine("Usuario creado con éxito.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al crear el usuario: {ex.Message}");
+    }
 }
 
-try {
-    AA1Account.MakeWithdrawal(100,DateTime.Now,"Pago alquiler");
-} catch (ArgumentOutOfRangeException e) {
-    Console.WriteLine(e.ToString());
-} catch (InvalidOperationException e) {
-    Console.WriteLine(e.ToString());
+
+    static void VerHoteles()
+{
+    try
+    {
+        var hoteles = hotelService.GetAllHoteles();
+        if (hoteles.Any())
+        {
+            foreach (var hotel in hoteles)
+            {
+                Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}, Dirección: {hotel.Direccion}, Calificación: {hotel.Calificacion}, Teléfono: {hotel.Telefono}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No hay hoteles disponibles.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al obtener la lista de hoteles: {ex.Message}");
+    }
 }
 
-string history = AA1Account.GetAccountHistory();
-Console.WriteLine(history); 
 
+    static void ReservarHotel()
+    {
+        // Implementa la lógica para reservar un hotel utilizando reservaService
+        Console.WriteLine("Reservar hotel (esta funcionalidad aún no está implementada).");
+    }
 
-try {
-    AA1Account AA1acc = new AA1Account("Rubén",100);
-    AA1acc.MakeDeposit(100,DateTime.Now,"Propina");
-    AA1acc.MakeWithdrawal(100,DateTime.Now,"Pago seguro");
-    AA1acc.MakeWithdrawal(50,DateTime.Now,"Luz");
-    Console.WriteLine(AA1acc.GetAccountHistory()); 
-} catch (ArgumentOutOfRangeException e) {
-    Console.WriteLine("ArgumentOutOfRangeException: " + e.ToString());
-} catch (InvalidOperationException e) {
-    Console.WriteLine("InvalidOperationException: " + e.ToString());
+    static void VerReservasPorUsuario()
+    {
+        // Implementa la lógica para mostrar reservas por usuario utilizando reservaService
+        Console.WriteLine("Ver reservas por usuario (esta funcionalidad aún no está implementada).");
+    }
+}
 }

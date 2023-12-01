@@ -1,52 +1,57 @@
 ﻿using System.Text.Json;
 using AA1.Models;
 
-namespace AA1.Data
-{
+namespace AA1.Data{
     public class AA1AccountRepository : IAA1AccountRepository
     {
-        private Dictionary<string, AA1Account> _accounts = new Dictionary<string, AA1Account>();
-        private readonly string _filePath = "AA1Accounts.json";
+         private Dictionary<string, AA1Account> _accounts = new Dictionary<string, AA1Account>();
+    private readonly string _filePath = "AA1Accounts.json";
 
-        public AA1AccountRepository()
+    public AA1AccountRepository()
+    {
+      _accounts = new Dictionary<string, AA1Account>();
+    LoadAccountsFromFile();
+    }
+
+     public void AddUsuario(AA1Account account)
+    {
+        if (!_accounts.ContainsKey(account.Username))
         {
-            LoadAccounts();
+            _accounts[account.Username] = account;
+            SaveAccountsToFile();
         }
-        public void AddAccount(AA1Account account)
+        else
         {
-            _accounts[account.Number] = account;
-        }
-
-        public AA1Account GetAccount(string accountNumber)
-        {
-            return _accounts.TryGetValue(accountNumber, out var account) ? account : null;
-        }
-
-        public void UpdateAccount(AA1Account account)
-        {
-            _accounts[account.Number] = account;
-        }
-
-        public void SaveChanges()
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(_accounts.Values, options);
-            File.WriteAllText(_filePath, jsonString);
-        }
-
-        private void LoadAccounts()
-        {
-            AA1Account AA1Account = new AA1Account("Alex",100);
-            //_accounts.Add("123456",AA1Account);
-            _accounts.Add(AA1Account.Number, AA1Account);
-
-            if (File.Exists(_filePath))
-            {
-                string jsonString = File.ReadAllText(_filePath);
-                var accounts = JsonSerializer.Deserialize<IEnumerable<AA1Account>>(jsonString);
-                _accounts = accounts.ToDictionary(acc => acc.Number);
-            }
-           
+            throw new InvalidOperationException("El usuario ya existe.");
         }
     }
+
+    public AA1Account FindUsuarioByUsername(string username)
+    {
+        _accounts.TryGetValue(username, out AA1Account account);
+        return account;
+    }
+
+    private void LoadAccountsFromFile()
+    {
+        if (File.Exists(_filePath))
+        {
+            string jsonString = File.ReadAllText(_filePath);
+            _accounts = JsonSerializer.Deserialize<Dictionary<string, AA1Account>>(jsonString) ?? new Dictionary<string, AA1Account>();
+        }
+    }
+
+   private void SaveAccountsToFile()
+{
+    if (_accounts == null)
+    {
+        throw new InvalidOperationException("La lista de cuentas no está inicializada.");
+    }
+
+    string jsonString = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(_filePath, jsonString);
 }
+
+
+}
+    }

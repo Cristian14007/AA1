@@ -1,4 +1,6 @@
-namespace Models;
+namespace AA1.Models;
+
+using System.Text;
 public class AA1Account
 {
     // Identificador único del usuario
@@ -33,13 +35,5 @@ public class AA1Account
         IsAdmin = isAdmin;
     }
 
-    public override string ToString()
-    {
-        return $"User ID: {ID}\n" +
-               $"Nombre: {Username}\n" +
-               $"Email: {Email}\n" +
-               $"Password: {Password} \n" +
-               $"CreatedAt: {CreatedAt}\n" +
-               $"isAdmin: {IsAdmin}";
-    }
+    // Métodos adicionales como validaciones, etc., pueden ser agregados aquí
 }

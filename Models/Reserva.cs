@@ -1,7 +1,4 @@
-namespace AA1.Models;
-
-public class Transaction
-{
+public class Reserva{
     // Identificador único de la transacción
     public int ID { get; set; }
 
@@ -21,10 +18,10 @@ public class Transaction
     public DateTime FechaFin { get; set; }
 
     // Constructor vacío
-    public Transaction() { }
+    public Reserva() { }
 
     // Constructor con todos los campos
-    public Transaction(int id, int userID, int hotelID, DateTime fechaReserva, DateTime fechaInicio, DateTime fechaFin)
+    public Reserva(int id, int userID, int hotelID, DateTime fechaReserva, DateTime fechaInicio, DateTime fechaFin)
     {
         ID = id;
         UserID = userID;
@@ -34,6 +31,7 @@ public class Transaction
         FechaFin = fechaFin;
     }
 
+    // Sobrescribe el método ToString para una representación textual de la transacción
     public override string ToString()
     {
         return $"Transaction ID: {ID}\n" +
@@ -43,5 +41,7 @@ public class Transaction
                $"Fecha de Inicio: {FechaInicio.ToString("dd/MM/yyyy")}\n" +
                $"Fecha de Fin: {FechaFin.ToString("dd/MM/yyyy")}";
     }
+
+    // Métodos adicionales...
 
 }

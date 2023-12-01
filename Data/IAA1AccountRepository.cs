@@ -4,10 +4,12 @@ namespace AA1.Data
 {
     public interface IAA1AccountRepository
     {
-        void AddAccount(AA1Account account);
-        AA1Account GetAccount(string accountNumber);
-        void UpdateAccount(AA1Account account);
-        void SaveChanges();
+        void AddUsuario(AA1Account account);
+        AA1Account FindUsuarioByUsername(string username);
+        //AA1Account FindUsuarioById(int id);
+        //void LoadAccountsFromFile();
+        //void SaveAccountsToFile();
+
 
 
     }

@@ -1,4 +1,3 @@
-namespace AA1.Models;
 public class Hotel
 {
     // Identificador único del hotel
@@ -32,14 +31,6 @@ public class Hotel
         Descripcion = descripcion;
         Telefono = telefono;
     }
-    public override string ToString()
-    {
-        return $"Hotel ID: {ID}\n" +
-               $"Nombre: {Nombre}\n" +
-               $"Dirección: {Direccion}\n" +
-               $"Calificación: {Calificacion} estrellas\n" +
-               $"Descripción: {Descripcion}\n" +
-               $"Teléfono: {Telefono}";
-    }
 
+    // Métodos adicionales y lógica del negocio pueden ser agregados aquí
 }
