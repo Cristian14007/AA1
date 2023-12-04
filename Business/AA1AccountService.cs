@@ -3,39 +3,34 @@ using AA1.Models;
 
 namespace AA1.Business
 {
-   public class AA1AccountService : IAA1AccountService
-{
-    private readonly IAA1AccountRepository _usuarioRepository;
-
-    public AA1AccountService(IAA1AccountRepository usuarioRepository)
+    public class AA1AccountService : IAA1AccountService
     {
-        _usuarioRepository = usuarioRepository;
-    }
+        private readonly IAA1AccountRepository _usuarioRepository;
 
-        public void RegistrarUsuario(AA1Account nuevoUsuario)
-    {
-        // Aquí puedes añadir lógica para validar el nuevo usuario
-        // Por ejemplo, verificar que el nombre de usuario no esté ya en uso
-        var usuarioExistente = _usuarioRepository.FindUsuarioByUsername(nuevoUsuario.Username);
-        if (usuarioExistente != null)
+        public AA1AccountService(IAA1AccountRepository usuarioRepository)
         {
-            throw new InvalidOperationException("El nombre de usuario ya está en uso.");
+            _usuarioRepository = usuarioRepository;
         }
 
-        // Agregar más validaciones según sea necesario
+        public void RegistrarUsuario(AA1Account nuevoUsuario)
+        {
 
-        _usuarioRepository.AddUsuario(nuevoUsuario);
+            var usuarioExistente = _usuarioRepository.FindUsuarioByUsername(nuevoUsuario.Username);
+            if (usuarioExistente != null)
+            {
+                throw new InvalidOperationException("El nombre de usuario ya está en uso.");
+            }
+
+
+
+            _usuarioRepository.AddUsuario(nuevoUsuario);
+        }
+
+        public AA1Account ObtenerUsuarioPorNombre(string username)
+        {
+            return _usuarioRepository.FindUsuarioByUsername(username);
+        }
+
+
     }
-
-    public AA1Account ObtenerUsuarioPorNombre(string username)
-    {
-        return _usuarioRepository.FindUsuarioByUsername(username);
-    }
-
-    // Aquí puedes añadir más métodos según tus necesidades, como:
-    // - Actualizar información del usuario
-    // - Eliminar un usuario
-    // - Validar credenciales del usuario
-    // - etc.
-}
 }

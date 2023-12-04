@@ -7,8 +7,8 @@ namespace AA1.Data
         void AddUsuario(AA1Account account);
         AA1Account FindUsuarioByUsername(string username);
         //AA1Account FindUsuarioById(int id);
-        //void LoadAccountsFromFile();
-        //void SaveAccountsToFile();
+        void LoadAccountsFromFile();
+        void SaveAccountsToFile();
 
 
 

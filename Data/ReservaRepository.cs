@@ -4,58 +4,59 @@ using Newtonsoft.Json;
 
 
 
-namespace AA1.Data{
-public class ReservaRepository : IReservaRepository
+namespace AA1.Data
 {
-    private Dictionary<int, Reserva> _reservas = new Dictionary<int, Reserva>();
-    private readonly string _filePath = "Reservas.json";
-
-    public ReservaRepository()
+    public class ReservaRepository : IReservaRepository
     {
-        LoadReservasFromFile();
-    }
+        private Dictionary<int, Reserva> _reservas = new Dictionary<int, Reserva>();
+        private readonly string _filePath = "Reservas.json";
 
-    public void AddReserva(Reserva reserva)
-    {
-        if (!_reservas.ContainsKey(reserva.ID))
+        public ReservaRepository()
         {
-            _reservas[reserva.ID] = reserva;
-            SaveReservasToFile();
+            LoadReservasFromFile();
         }
-        else
+        /*
+            public void AddReserva(Reserva reserva)
+            {
+                if (!_reservas.ContainsKey(reserva.ID))
+                {
+                    _reservas[reserva.ID] = reserva;
+                    SaveReservasToFile();
+                }
+                else
+                {
+                    throw new InvalidOperationException("La reserva ya existe.");
+                }
+            }
+
+            public Reserva FindReservaById(int id)
+            {
+                if (_reservas.TryGetValue(id, out Reserva reserva))
+                {
+                    return reserva;
+                }
+
+                return null;
+            }
+
+            public IEnumerable<Reserva> FindReservasByUserId(int userId)
+            {
+                return _reservas.Values.Where(r => r.UserID == userId);
+            }
+        */
+        private void LoadReservasFromFile()
         {
-            throw new InvalidOperationException("La reserva ya existe.");
+            if (File.Exists(_filePath))
+            {
+                string json = File.ReadAllText(_filePath);
+                _reservas = JsonConvert.DeserializeObject<Dictionary<int, Reserva>>(json) ?? new Dictionary<int, Reserva>();
+            }
         }
-    }
 
-    public Reserva FindReservaById(int id)
-    {
-        if (_reservas.TryGetValue(id, out Reserva reserva))
+        private void SaveReservasToFile()
         {
-            return reserva;
-        }
-
-        return null;
-    }
-
-    public IEnumerable<Reserva> FindReservasByUserId(int userId)
-    {
-        return _reservas.Values.Where(r => r.UserID == userId);
-    }
-
-    private void LoadReservasFromFile()
-    {
-        if (File.Exists(_filePath))
-        {
-            string json = File.ReadAllText(_filePath);
-            _reservas = JsonConvert.DeserializeObject<Dictionary<int, Reserva>>(json) ?? new Dictionary<int, Reserva>();
+            string json = JsonConvert.SerializeObject(_reservas, Formatting.Indented);
+            File.WriteAllText(_filePath, json);
         }
     }
-
-    private void SaveReservasToFile()
-    {
-        string json = JsonConvert.SerializeObject(_reservas, Formatting.Indented);
-        File.WriteAllText(_filePath, json);
-    }
-}
 }

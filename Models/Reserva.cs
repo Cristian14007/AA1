@@ -1,26 +1,30 @@
-public class Reserva{
-    // Identificador único de la transacción
+namespace AA1.Models;
+
+using System.Text;
+using System.Text.Json;
+public class Reserva
+{
+
     public int ID { get; set; }
 
-    // Identificador del usuario que realiza la reserva
+
     public int UserID { get; set; }
 
-    // Identificador del hotel reservado
+
     public int HotelID { get; set; }
 
-    // Fecha en que se realiza la reserva
+
     public DateTime FechaReserva { get; set; }
 
-    // Fecha de inicio de la estadía
+
     public DateTime FechaInicio { get; set; }
 
-    // Fecha de fin de la estadía
     public DateTime FechaFin { get; set; }
 
-    // Constructor vacío
+
     public Reserva() { }
 
-    // Constructor con todos los campos
+
     public Reserva(int id, int userID, int hotelID, DateTime fechaReserva, DateTime fechaInicio, DateTime fechaFin)
     {
         ID = id;
@@ -31,17 +35,28 @@ public class Reserva{
         FechaFin = fechaFin;
     }
 
-    // Sobrescribe el método ToString para una representación textual de la transacción
-    public override string ToString()
+    public static void SaveReservation(Reserva reserva)
     {
-        return $"Transaction ID: {ID}\n" +
-               $"User ID: {UserID}\n" +
-               $"Hotel ID: {HotelID}\n" +
-               $"Fecha de Reserva: {FechaReserva.ToString("dd/MM/yyyy")}\n" +
-               $"Fecha de Inicio: {FechaInicio.ToString("dd/MM/yyyy")}\n" +
-               $"Fecha de Fin: {FechaFin.ToString("dd/MM/yyyy")}";
+        var reservas = GetReservas();
+        reservas.Add(reserva);
+        string jsonString = JsonSerializer.Serialize(reservas, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText("reserva.json", jsonString);
+    }
+    public static List<Reserva> GetReservas()
+    {
+        string fileName = "reserva.json";
+        if (File.Exists(fileName) && new FileInfo(fileName).Length > 0)
+        {
+            string jsonString = File.ReadAllText(fileName);
+            return JsonSerializer.Deserialize<List<Reserva>>(jsonString) ?? new List<Reserva>();
+        }
+        else
+        {
+            return new List<Reserva>();
+        }
     }
 
-    // Métodos adicionales...
+
+
 
 }

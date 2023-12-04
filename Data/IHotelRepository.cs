@@ -4,10 +4,11 @@ namespace AA1.Data
 {
     public interface IHotelRepository
     {
+        /*
        void AddHotel(Hotel hotel);
        Hotel FindHotelById(int id);
-       IEnumerable<Hotel> GetAllHoteles();
+       //IEnumerable<Hotel> GetAllHoteles();
        //void LoadHotelesFromFile();
-       //void SaveHotelesToFile();
+       //void SaveHotelesToFile();*/
     }
 }

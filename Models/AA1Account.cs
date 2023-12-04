@@ -1,39 +1,57 @@
 namespace AA1.Models;
 
 using System.Text;
+using System.Text.Json;
 public class AA1Account
 {
-    // Identificador único del usuario
-    public int ID { get; set; }
+    private static Random random = new Random();
 
-    // Nombre de usuario
+    public string? ID { get; set; }
+
+
     public string Username { get; set; }
 
-    // Correo electrónico del usuario
+
     public string Email { get; set; }
 
-    // Contraseña del usuario (en una aplicación real, debería estar encriptada)
+
     public string Password { get; set; }
 
-    // Fecha de creación de la cuenta
+
     public DateTime CreatedAt { get; set; }
 
-    // Indica si el usuario tiene privilegios administrativos
+
     public bool IsAdmin { get; set; }
 
-    // Constructor vacío
+
     public AA1Account() { }
 
-    // Constructor con todos los campos
-    public AA1Account(int id, string username, string email, string password, DateTime createdAt, bool isAdmin)
+
+    public AA1Account(string username, string email, string password)
     {
-        ID = id;
+        ID = GenerateRandomAccountNumber();
         Username = username;
         Email = email;
         Password = password;
-        CreatedAt = createdAt;
-        IsAdmin = isAdmin;
+
+    }
+    private string GenerateRandomAccountNumber()
+    {
+
+        return random.Next(10000000, 100000000).ToString();
     }
 
-    // Métodos adicionales como validaciones, etc., pueden ser agregados aquí
+    public static bool UserExists(string username)
+    {
+        var users = GetUserAccounts();
+        return users.Any(u => u.Value.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+    }
+
+
+    public static Dictionary<string, AA1Account> GetUserAccounts()
+    {
+        string jsonString = File.ReadAllText("AA1Account.json");
+        return JsonSerializer.Deserialize<Dictionary<string, AA1Account>>(jsonString) ?? new Dictionary<string, AA1Account>();
+    }
+
 }

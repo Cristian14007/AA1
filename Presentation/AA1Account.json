@@ -1,0 +1,114 @@
+{
+  "14765745": {
+    "ID": "14765745",
+    "Username": "a",
+    "Email": "a",
+    "Password": "a",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "67088460": {
+    "ID": "67088460",
+    "Username": "b",
+    "Email": "b",
+    "Password": "b",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "43786263": {
+    "ID": "43786263",
+    "Username": "c",
+    "Email": "c",
+    "Password": "c",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "93758090": {
+    "ID": "93758090",
+    "Username": "q",
+    "Email": "q",
+    "Password": "q",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "22561000": {
+    "ID": "22561000",
+    "Username": "1",
+    "Email": "1",
+    "Password": "1",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "34816146": {
+    "ID": "34816146",
+    "Username": "z",
+    "Email": "z",
+    "Password": "z",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "33806846": {
+    "ID": "33806846",
+    "Username": "w",
+    "Email": "w",
+    "Password": "w",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "95788600": {
+    "ID": "95788600",
+    "Username": "2",
+    "Email": "2",
+    "Password": "2",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "24717311": {
+    "ID": "24717311",
+    "Username": "andres",
+    "Email": "andres@gmail.com",
+    "Password": "andres",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "53484879": {
+    "ID": "53484879",
+    "Username": "torres",
+    "Email": "torresgmail",
+    "Password": "t",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "72481915": {
+    "ID": "72481915",
+    "Username": "pp",
+    "Email": "pp",
+    "Password": "pp",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "62446836": {
+    "ID": "62446836",
+    "Username": "clase",
+    "Email": "clase",
+    "Password": "clase",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "94418155": {
+    "ID": "94418155",
+    "Username": "ezquerra",
+    "Email": "qwdfeew",
+    "Password": "dfsewqad",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "35150489": {
+    "ID": "35150489",
+    "Username": "diego",
+    "Email": "d",
+    "Password": "d",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  }
+}

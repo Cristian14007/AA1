@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  tu-aplicacion:
+    image: booking
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6107:6107"
+    volumes:
+      - ./data:/app/data

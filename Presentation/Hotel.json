@@ -33,6 +33,14 @@
     },
     {
         "ID": 5,
+        "Nombre": "Hotel Aventura",
+        "Direccion": "321 Calle Aventura, Ciudad Aventura",
+        "Calificacion": 4,
+        "Descripcion": "Perfecto para aventureros, cerca de rutas de senderismo y parques naturales.",
+        "Telefono": "555-3456"
+    },
+    {
+        "ID": 6,
         "Nombre": "Retiro Tranquilo",
         "Direccion": "654 Calle Paz, Pueblo Tranquilo",
         "Calificacion": 5,
