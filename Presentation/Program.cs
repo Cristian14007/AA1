@@ -4,6 +4,7 @@ using AA1.Business;
 using AA1.Presentation;
 //using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
+using Spectre.Console;
 
 namespace AA1.Presentation
 {
@@ -21,6 +22,10 @@ namespace AA1.Presentation
 
         static void Main(string[] args)
         {
+
+            
+
+            
             var accounts = new Dictionary<string, AA1Account>();
 
             string fileName = "AA1Account.json";
@@ -33,7 +38,14 @@ namespace AA1.Presentation
             bool salir = false;
             while (!salir)
             {
-                Console.WriteLine("\nBienvenido a Booking");
+/* var rule = new Rule("[red]Booking[/]");
+AnsiConsole.Write(rule); */
+
+AnsiConsole.Write(
+    new FigletText("Booking")
+        .Centered()
+        .Color(Color.Red));
+                //Console.WriteLine("\nBienvenido a Booking");
                 Console.WriteLine("1. Crear una Cuenta");
                 Console.WriteLine("2. Ver hoteles");
                 Console.WriteLine("3. Reservar hoteles");
@@ -61,9 +73,13 @@ namespace AA1.Presentation
                         break;
                     case "2":
                         Console.WriteLine("Esta es la lista de hoteles.");
+
+
+                        
                         DisplayHotels();
                         //VerHoteles();
                         break;
+
                     case "3":
                         MakeReservation();
                         break;
@@ -159,12 +175,29 @@ namespace AA1.Presentation
         }*/
         private static void DisplayHotels()
         {
-            var hotels = Hotel.GetHotels();
-            foreach (var hotel in hotels)
-            {
-                Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}, Dirección: {hotel.Direccion}, Calificacion: {hotel.Calificacion}, Descripcion: {hotel.Descripcion}, Telefono: {hotel.Telefono}");
-               
-            }
+            var hoteles = Hotel.GetHotels();
+
+        var table = new Table();
+        table.AddColumn("Nombre");
+        table.AddColumn("Direccion");
+        table.AddColumn("Calificacion");
+        table.AddColumn("Descripcion");
+        table.AddColumn("Telefono");
+
+        foreach (var hotel in hoteles)
+        {
+            table.AddRow(
+                hotel.Nombre,
+                hotel.Direccion,
+                hotel.Calificacion.ToString(),
+                hotel.Descripcion,
+                hotel.Telefono
+            );
+
+            table.AddEmptyRow();
+        }
+
+        AnsiConsole.Render(table);
         }
         private static void DisplayHotels2()
         {
