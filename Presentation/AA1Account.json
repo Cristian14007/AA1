@@ -87,27 +87,35 @@
     "CreatedAt": "0001-01-01T00:00:00",
     "IsAdmin": false
   },
-  "62446836": {
-    "ID": "62446836",
-    "Username": "clase",
-    "Email": "clase",
-    "Password": "clase",
-    "CreatedAt": "0001-01-01T00:00:00",
-    "IsAdmin": false
-  },
-  "94418155": {
-    "ID": "94418155",
+  "98584109": {
+    "ID": "98584109",
     "Username": "ezquerra",
-    "Email": "qwdfeew",
-    "Password": "dfsewqad",
+    "Email": "w",
+    "Password": "w",
     "CreatedAt": "0001-01-01T00:00:00",
     "IsAdmin": false
   },
-  "35150489": {
-    "ID": "35150489",
-    "Username": "diego",
-    "Email": "d",
-    "Password": "d",
+  "78095939": {
+    "ID": "78095939",
+    "Username": "prueba2",
+    "Email": "1",
+    "Password": "1",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "12109809": {
+    "ID": "12109809",
+    "Username": "ww",
+    "Email": "ww",
+    "Password": "ww",
+    "CreatedAt": "0001-01-01T00:00:00",
+    "IsAdmin": false
+  },
+  "76761307": {
+    "ID": "76761307",
+    "Username": "alex",
+    "Email": "aa",
+    "Password": "aa",
     "CreatedAt": "0001-01-01T00:00:00",
     "IsAdmin": false
   }

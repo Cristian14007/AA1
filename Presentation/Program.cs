@@ -6,6 +6,7 @@ using AA1.Presentation;
 using System.Text.Json;
 using Spectre.Console;
 
+
 namespace AA1.Presentation
 {
     class Program
@@ -15,18 +16,23 @@ namespace AA1.Presentation
         static IHotelRepository hotelRepository = new HotelRepository();
         static IReservaRepository reservaRepository = new ReservaRepository();
 
+
         // Instancias de los servicios
         static AA1AccountService usuarioService = new AA1AccountService(usuarioRepository);
         static HotelService hotelService = new HotelService(hotelRepository);
         static ReservaService reservaService = new ReservaService(reservaRepository, hotelRepository, usuarioRepository);
 
+
         static void Main(string[] args)
         {
 
-            
 
-            
+           
+
+
+           
             var accounts = new Dictionary<string, AA1Account>();
+
 
             string fileName = "AA1Account.json";
             if (File.Exists(fileName))
@@ -35,16 +41,18 @@ namespace AA1.Presentation
                 accounts = JsonSerializer.Deserialize<Dictionary<string, AA1Account>>(jsonString);
             }
 
+
             bool salir = false;
             while (!salir)
             {
 /* var rule = new Rule("[red]Booking[/]");
 AnsiConsole.Write(rule); */
 
+
 AnsiConsole.Write(
     new FigletText("Booking")
         .Centered()
-        .Color(Color.Red));
+        .Color(Color.Blue));
                 //Console.WriteLine("\nBienvenido a Booking");
                 Console.WriteLine("1. Crear una Cuenta");
                 Console.WriteLine("2. Ver hoteles");
@@ -53,6 +61,7 @@ AnsiConsole.Write(
                 Console.WriteLine("5. Buscar hotel por calificación");
                 Console.WriteLine("6. Salir");
                 Console.WriteLine("Select an option: ");
+
 
                 string opcion = Console.ReadLine();
                 switch (opcion)
@@ -65,6 +74,7 @@ AnsiConsole.Write(
                         Console.Write("Ingrese contraseña: ");
                         string password = Console.ReadLine();
 
+
                         AA1Account newAccount = new AA1Account(username, email, password);
                         accounts.Add(newAccount.ID, newAccount);
                         Console.WriteLine($"Cuenta creada por {username} con contraseña {password}.");
@@ -75,18 +85,23 @@ AnsiConsole.Write(
                         Console.WriteLine("Esta es la lista de hoteles.");
 
 
-                        
+
+
+                       
                         DisplayHotels();
                         //VerHoteles();
                         break;
+
 
                     case "3":
                         MakeReservation();
                         break;
 
+
                     case "4":
                         Console.Write("Ingrese el nombre de usuario para ver sus reservas: ");
                         var userName = Console.ReadLine();
+
 
                         var users = AA1Account.GetUserAccounts();
                         var user = users.Values.FirstOrDefault(u => u.Username.Equals(userName, StringComparison.OrdinalIgnoreCase));
@@ -96,8 +111,10 @@ AnsiConsole.Write(
                             break;
                         }
 
+
                         DisplayUserReservations(user.ID);
                         break;
+
 
                     case "5":
                         Console.Write("Ingrese la calificación del 1 al 5 deseada para el hotel : ");
@@ -107,8 +124,10 @@ AnsiConsole.Write(
                             break;
                         }
 
+
                         DisplayHotelsByRating(calificacionDeseada);
                         break;
+
 
                     case "6":
                         salir = true;
@@ -120,6 +139,7 @@ AnsiConsole.Write(
             }
         }
 
+
         static void CrearUsuario()
         {
             Console.Write("Ingrese nombre de usuario: ");
@@ -127,17 +147,19 @@ AnsiConsole.Write(
             Console.Write("Ingrese email: ");
             string email = Console.ReadLine();
             Console.Write("Ingrese contraseña: ");
-            string password = Console.ReadLine(); 
+            string password = Console.ReadLine();
 
-            // Crear el usuario 
+
+            // Crear el usuario
             AA1Account nuevoUsuario = new AA1Account
             {
                 Username = username,
                 Email = email,
-                Password = password, 
+                Password = password,
                 CreatedAt = DateTime.Now,
-                IsAdmin = false 
+                IsAdmin = false
             };
+
 
             try
             {
@@ -149,6 +171,8 @@ AnsiConsole.Write(
                 Console.WriteLine($"Error al crear el usuario: {ex.Message}");
             }
         }
+
+
 
 
         /*static void VerHoteles()
@@ -177,12 +201,14 @@ AnsiConsole.Write(
         {
             var hoteles = Hotel.GetHotels();
 
+
         var table = new Table();
         table.AddColumn("Nombre");
         table.AddColumn("Direccion");
         table.AddColumn("Calificacion");
         table.AddColumn("Descripcion");
         table.AddColumn("Telefono");
+
 
         foreach (var hotel in hoteles)
         {
@@ -194,20 +220,45 @@ AnsiConsole.Write(
                 hotel.Telefono
             );
 
+
             table.AddEmptyRow();
         }
+
 
         AnsiConsole.Render(table);
         }
         private static void DisplayHotels2()
         {
+
+
+            var table = new Table();
+                table.AddColumn("Nombre");
+                table.AddColumn("Direccion");
+                table.AddColumn("Calificacion");
+
+
+
+
             var hotels = Hotel.GetHotels();
             foreach (var hotel in hotels)
             {
-                Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}");
-                
+                /* Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}"); */
+                table.AddRow(
+                   
+                hotel.Nombre,
+                hotel.Direccion,
+                hotel.Calificacion.ToString()
+            );
+
+
+            table.AddEmptyRow();
             }
+
+
+            AnsiConsole.Render(table);
         }
+
+
 
 
         private static void MakeReservation()
@@ -215,13 +266,15 @@ AnsiConsole.Write(
             Console.Write("Ingrese su nombre de usuario: ");
             var username = Console.ReadLine();
 
-            var users = AA1Account.GetUserAccounts(); 
+
+            var users = AA1Account.GetUserAccounts();
             var user = users.Values.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
             if (user == null)
             {
                 Console.WriteLine("Usuario no encontrado.");
                 return;
             }
+
 
             DisplayHotels2();
             Console.Write("Seleccione el número del hotel que desea reservar: ");
@@ -230,6 +283,7 @@ AnsiConsole.Write(
                 Console.WriteLine("Selección inválida.");
                 return;
             }
+
 
             var hotels = Hotel.GetHotels();
             if (hotelChoice < 1 || hotelChoice > hotels.Count)
@@ -247,16 +301,21 @@ AnsiConsole.Write(
             var reserva = new Reserva
             {
                 ID = newReservationId,
-                UserID = int.Parse(user.ID), 
+                UserID = int.Parse(user.ID),
                 HotelID = selectedHotel.ID,
                 FechaReserva = DateTime.Now,
-                FechaInicio = DateTime.Now, 
-                FechaFin = DateTime.Now.AddDays(1) 
+                FechaInicio = DateTime.Now,
+                FechaFin = DateTime.Now.AddDays(1)
             };
 
+
             Reserva.SaveReservation(reserva);
-            Console.WriteLine("Reserva realizada con éxito.");
+            var rule = new Rule("[blue]Reserva realizada con éxito[/]");
+            AnsiConsole.Write(rule);
         }
+
+
+
 
 
 
@@ -267,9 +326,10 @@ AnsiConsole.Write(
                 Console.WriteLine("El ID del usuario no es válido.");
                 return;
             }
-
+           
             var reservations = Reserva.GetReservas();
             var userReservations = reservations.Where(r => r.UserID == userId).ToList();
+
 
             if (!userReservations.Any())
             {
@@ -277,17 +337,27 @@ AnsiConsole.Write(
                 return;
             }
 
+
             foreach (var reserva in userReservations)
             {
                 Console.WriteLine($"Reserva: Hotel: {reserva.HotelID}, Fecha de Reserva: {reserva.FechaReserva}");
-              
+             
             }
         }
+
 
         private static void DisplayHotelsByRating(int rating)
         {
             var hotels = Hotel.GetHotels();
             var filteredHotels = hotels.Where(hotel => hotel.Calificacion == rating).ToList();
+
+
+            var table_2 = new Table();
+                table_2.AddColumn("Nombre");
+                table_2.AddColumn("Calificación");
+                table_2.AddColumn("Direccion");
+                table_2.AddColumn("Descripcion");
+
 
             if (!filteredHotels.Any())
             {
@@ -295,12 +365,23 @@ AnsiConsole.Write(
                 return;
             }
 
+
             foreach (var hotel in filteredHotels)
             {
-                Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}, Calificación: {hotel.Calificacion}");
-                
+                /*Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}, Calificación: {hotel.Calificacion}");*/
+                table_2.AddRow(
+                hotel.Nombre,
+                hotel.Calificacion.ToString(),
+                hotel.Direccion,
+                hotel.Descripcion
+            );
+
+
+            table_2.AddEmptyRow();
             }
+            AnsiConsole.Render(table_2);
         }
+
 
         static void SaveAccountsToFile(Dictionary<string, AA1Account> accounts)
         {

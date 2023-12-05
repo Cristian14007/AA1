@@ -39,7 +39,7 @@ public class Hotel
 
     public static List<Hotel> GetHotels()
     {
-        string fileName = "hotel.json";
+        string fileName = "Hotel.json";
         if (File.Exists(fileName))
         {
             string jsonString = File.ReadAllText(fileName);

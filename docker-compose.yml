@@ -9,4 +9,8 @@ services:
     ports:
       - "6107:6107"
     volumes:
-      - ./data:/app/data
+      - booking:/app/data
+
+volumes:
+  booking:
+    external: true
