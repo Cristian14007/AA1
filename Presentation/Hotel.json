@@ -5,7 +5,9 @@
         "Direccion": "123 Calle Sol, Ciudad Sol",
         "Calificacion": 4,
         "Descripcion": "Un hermoso hotel con vistas al mar y excelente servicio.",
-        "Telefono": "555-1234"
+        "Telefono": "555-1234",
+        "FechaDisponible" : "17-12-2023 hasta 19-12-2023",
+        "FechaDisponible_2" : "18-12-2023"
     },
     {
         "ID": 2,
@@ -13,7 +15,10 @@
         "Direccion": "456 Avenida Luna, Ciudad Luna",
         "Calificacion": 5,
         "Descripcion": "Lujoso hotel con instalaciones modernas y spa de primera clase.",
-        "Telefono": "555-5678"
+        "Telefono": "555-5678",
+        "FechaDisponible" : "17-12-2023",
+        "FechaDisponible_2" : "19-12-2023"
+
     },
     {
         "ID": 3,
@@ -21,7 +26,9 @@
         "Direccion": "789 Camino Estrella, Pueblo Estrella",
         "Calificacion": 3,
         "Descripcion": "Acogedor y económico, ideal para viajeros que buscan comodidad a buen precio.",
-        "Telefono": "555-9012"
+        "Telefono": "555-9012",
+        "FechaDisponible" : "17-12-2023",
+        "FechaDisponible_2" : "20-12-2023"
     },
     {
         "ID": 4,
@@ -29,7 +36,10 @@
         "Direccion": "321 Calle Aventura, Ciudad Aventura",
         "Calificacion": 4,
         "Descripcion": "Perfecto para aventureros, cerca de rutas de senderismo y parques naturales.",
-        "Telefono": "555-3456"
+        "Telefono": "555-3456",
+        "FechaDisponible" : "17-12-2023",
+        "FechaDisponible_2" : "21-12-2023"
+        
     },
     {
         "ID": 5,
@@ -37,7 +47,9 @@
         "Direccion": "321 Calle Aventura, Ciudad Aventura",
         "Calificacion": 4,
         "Descripcion": "Perfecto para aventureros, cerca de rutas de senderismo y parques naturales.",
-        "Telefono": "555-3456"
+        "Telefono": "555-3456",
+        "FechaDisponible" : "17-12-2023",
+        "FechaDisponible_2" : "22-12-2023"
     },
     {
         "ID": 6,
@@ -45,6 +57,8 @@
         "Direccion": "654 Calle Paz, Pueblo Tranquilo",
         "Calificacion": 5,
         "Descripcion": "Una escapada tranquila con un hermoso jardín y un ambiente relajante.",
-        "Telefono": "555-7890"
+        "Telefono": "555-7890",
+        "FechaDisponible" : "17-12-2023",
+        "FechaDisponible_2" : "23-12-2023"
     }
 ]
