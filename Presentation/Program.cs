@@ -494,7 +494,7 @@ public static void SumarDias(int hotelId, string fechaSelected, int numDias){
         
 
 }
-
+}
 public static Hotel GetHotelById(int hotelId)
 {
     var hotels = Hotel.GetHotels();
