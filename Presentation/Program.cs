@@ -23,6 +23,9 @@ namespace AA1.Presentation
         static ReservaService reservaService = new ReservaService(reservaRepository, hotelRepository, usuarioRepository);
 
 
+        static DateTime fechaReservaInicial;
+        static DateTime fechaReservaFinal;
+
         static void Main(string[] args)
         {
 
@@ -59,7 +62,8 @@ namespace AA1.Presentation
                 Console.WriteLine("3. Reservar hoteles");
                 Console.WriteLine("4. Ver reservas por usuario");
                 Console.WriteLine("5. Buscar hotel por calificación");
-                Console.WriteLine("6. Salir");
+                Console.WriteLine("6. Buscar hotel por ubicación");
+                Console.WriteLine("7. Salir");
                 Console.WriteLine("Select an option: ");
 
 
@@ -128,8 +132,12 @@ namespace AA1.Presentation
                         DisplayHotelsByRating(calificacionDeseada);
                         break;
 
-
                     case "6":
+                        
+                        FilterHotelsByAddress();
+
+                        break;
+                    case "7":
                         salir = true;
                         break;
                     default:
@@ -292,6 +300,7 @@ namespace AA1.Presentation
 
 
             var hotels = Hotel.GetHotels();
+            var selectedHotel = hotels[hotelChoice - 1];
             if (hotelChoice < 1 || hotelChoice > hotels.Count)
             {
                 Console.WriteLine("Selección de htel inválida.");
@@ -301,24 +310,63 @@ namespace AA1.Presentation
             DisplayHotelById(hotelChoice);
             string fecha = Console.ReadLine();
 
-        if(fecha != "1" && fecha != "2"){
-            Console.WriteLine("Fecha no válida (Introduce el número)");
-            return;
-        }else{
-            Console.WriteLine("Cuantos días quiere reserva (Max 7)");
-            string numDiasString = Console.ReadLine();
+            DateTime fechaOriginal;
 
-            int.TryParse(numDiasString, out int numDias);
+            DateTime nuevaFecha;
 
-            if(numDias <=0 || numDias > 7){
-                Console.WriteLine("Dias inválidos");
-            return;
-            }else{
-                SumarDias(hotelChoice, fecha, numDias);
+            var fechaOriginalString = "";
+
+            var fechaNuevaString = "";
+
+            if (fecha != "1" && fecha != "2")
+            {
+                Console.WriteLine("Fecha no válida (Introduce el número)");
+                return;
             }
-            
+            else
+            {
+                Console.WriteLine("Cuantos días quiere reserva (Max 7)");
+                string numDiasString = Console.ReadLine();
 
-        }
+                int.TryParse(numDiasString, out int numDias);
+
+                if (numDias <= 0 || numDias > 7)
+                {
+                    Console.WriteLine("Dias inválidos");
+                    return;
+                }
+                else
+                {
+                    //SumarDias(hotelChoice, fecha, numDias);
+
+
+
+
+
+                    if (fecha == "1")
+                    {
+                        fechaOriginal = DateTime.Parse(selectedHotel.FechaDisponible);
+                        fechaOriginalString = fechaOriginal.ToString("dd-MM-yyyy");
+
+                        nuevaFecha = fechaOriginal.AddDays(numDias);
+                        fechaNuevaString = nuevaFecha.ToString("dd-MM-yyyy");
+                    }
+                    else
+                    {
+                        fechaOriginal = DateTime.Parse(selectedHotel.FechaDisponible_2);
+                        fechaOriginalString = fechaOriginal.ToString("dd-MM-yyyy");
+
+                        nuevaFecha = fechaOriginal.AddDays(numDias);
+                        fechaNuevaString = nuevaFecha.ToString("dd-MM-yyyy");
+                    }
+
+                    
+                    /* Console.WriteLine("Fecha original: " + fechaOriginalString);
+                    Console.WriteLine("Nueva fecha después de sumar " + numDias + " días: " + fechaNuevaString); */
+                }
+
+
+            }
 
             var existingReservations = Reserva.GetReservas();
             int newReservationId = 0;
@@ -326,18 +374,15 @@ namespace AA1.Presentation
             {
                 newReservationId = existingReservations.Max(r => r.ID) + 1;
             }
-            var selectedHotel = hotels[hotelChoice - 1];
+            
             var reserva = new Reserva
             {
-
-
-
                 ID = newReservationId,
                 UserID = int.Parse(user.ID),
                 HotelID = selectedHotel.ID,
                 FechaReserva = DateTime.Now,
-                FechaInicio = DateTime.Now,
-                FechaFin = DateTime.Now
+                FechaInicio = fechaOriginalString,
+                FechaFin = fechaNuevaString
             };
 
 
@@ -372,7 +417,7 @@ namespace AA1.Presentation
 
             foreach (var reserva in userReservations)
             {
-                Console.WriteLine($"Reserva: Hotel: {reserva.HotelID}, Fecha de Reserva: {reserva.FechaReserva}");
+                Console.WriteLine($"Reserva:\n Hotel: {reserva.HotelID}, tiene Reserva desde {reserva.FechaInicio} hasta {reserva.FechaFin}\n");
 
             }
         }
@@ -414,6 +459,41 @@ namespace AA1.Presentation
             AnsiConsole.Render(table_2);
         }
 
+        private static void FilterHotelsByAddress()
+        {
+            Console.Write("Ingrese la dirección del hotel: ");
+            var address = Console.ReadLine();
+
+            var hotels = Hotel.GetHotels();
+            var filteredHotels = hotels.Where(hotel => hotel.Direccion.Equals(address, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            var table_2 = new Table();
+            table_2.AddColumn("Nombre");
+            table_2.AddColumn("Calificación");
+            table_2.AddColumn("Direccion");
+            table_2.AddColumn("Descripcion");
+
+            if (!filteredHotels.Any())
+            {
+                Console.WriteLine("No se encontraron hoteles con esa dirección.");
+            }
+
+            foreach (var hotel in filteredHotels)
+            {
+                /*Console.WriteLine($"ID: {hotel.ID}, Nombre: {hotel.Nombre}, Calificación: {hotel.Calificacion}");*/
+                table_2.AddRow(
+                hotel.Nombre,
+                hotel.Calificacion.ToString(),
+                hotel.Direccion,
+                hotel.Descripcion
+            );
+
+
+                table_2.AddEmptyRow();
+            }
+            AnsiConsole.Render(table_2);
+        }
+
 
         static void SaveAccountsToFile(Dictionary<string, AA1Account> accounts)
         {
@@ -424,83 +504,89 @@ namespace AA1.Presentation
         }
 
         private static void DisplayHotelById(int hotelId)
-{
-    var hotel = GetHotelById(hotelId);
+        {
+            var hotel = GetHotelById(hotelId);
 
-    if (hotel != null)
-    {
-        Console.WriteLine("Que fecha desea escoger?");
+            if (hotel != null)
+            {
+                Console.WriteLine("Que fecha desea escoger?");
 
-        var table_5 = new Table();
-        table_5.AddColumn("Fecha Disponible 1");
-        table_5.AddColumn("Fecha Disponible 2");
+                var table_5 = new Table();
+                table_5.AddColumn("Fecha Disponible 1");
+                table_5.AddColumn("Fecha Disponible 2");
 
-        table_5.AddRow(
-            hotel.FechaDisponible,
-            hotel.FechaDisponible_2
+                table_5.AddRow(
+                    hotel.FechaDisponible,
+                    hotel.FechaDisponible_2
 
-        );
+                );
 
-        AnsiConsole.Render(table_5);
+                AnsiConsole.Render(table_5);
 
+
+            }
+
+        }
+
+        public static Hotel GetHotelById(int hotelId)
+        {
+            var hotels = Hotel.GetHotels();
+            Hotel hotel = hotels.FirstOrDefault(h => h.ID == hotelId);
+            return hotel;
+        }
+
+        /*         public static void SumarDias(int hotelId, string fechaSelected, int numDias)
+                {
+
+                    var hotel = GetHotelById(hotelId);
+
+                    if (fechaSelected == "1")
+                    {
+
+                        var fechaOriginal = hotel.FechaDisponible;
+                        DateTime fechaComoDateTime = DateTime.Parse(fechaOriginal);
+
+
+                        // Sumamos días a la fecha original
+
+                        DateTime nuevaFecha = fechaComoDateTime.AddDays(numDias);
+
+                        // Imprimimos la nueva fecha
+
+
+                        var fechaReservaInicial = fechaComoDateTime.ToString("dd-MM-yyyy");
+                        var fechaReservaFinal = nuevaFecha.ToString("dd-MM-yyyy");
+
+                        Console.WriteLine("Fecha original: " + fechaReservaInicial);
+                        Console.WriteLine("Nueva fecha después de sumar " + numDias + " días: " + fechaReservaFinal);
+
+
+
+                    }
+                    else
+                    {
+                        var fechaOriginal = hotel.FechaDisponible_2;
+                        DateTime fechaComoDateTime = DateTime.Parse(fechaOriginal);
+
+
+                        // Sumamos días a la fecha original
+
+                        DateTime nuevaFecha = fechaComoDateTime.AddDays(numDias);
+
+                        // Imprimimos la nueva fecha
+
+
+                        var fechaReservaInicial = fechaComoDateTime.ToString("dd-MM-yyyy");
+                        var fechaReservaFinal = nuevaFecha.ToString("dd-MM-yyyy");
+
+                        Console.WriteLine("Fecha original: " + fechaReservaInicial);
+                        Console.WriteLine("Nueva fecha después de sumar " + numDias + " días: " + fechaReservaFinal);
+
+
+
+                    }
+                } */
         
-    }
-    
-}
-
-public static void SumarDias(int hotelId, string fechaSelected, int numDias){
-
- var hotel = GetHotelById(hotelId);
-
-    if(fechaSelected == "1"){
-
-        var fechaOriginal = hotel.FechaDisponible;
-        DateTime fechaComoDateTime = DateTime.Parse(fechaOriginal);
-
-
-        // Sumamos días a la fecha original
-            
-            DateTime nuevaFecha = fechaComoDateTime.AddDays(numDias);
-
-            // Imprimimos la nueva fecha
-            
-
-            var fechaReservaInicial = fechaComoDateTime.ToString("dd-MM-yyyy");
-            var fechaReservaFinal = nuevaFecha.ToString("dd-MM-yyyy");
-
-            Console.WriteLine("Fecha original: " + fechaReservaInicial);
-            Console.WriteLine("Nueva fecha después de sumar " + numDias + " días: " + fechaReservaFinal);
-
-            
-
-    }else{
-         var fechaOriginal = hotel.FechaDisponible_2;
-        DateTime fechaComoDateTime = DateTime.Parse(fechaOriginal);
-
-
-        // Sumamos días a la fecha original
-            
-            DateTime nuevaFecha = fechaComoDateTime.AddDays(numDias);
-
-            // Imprimimos la nueva fecha
-            
-
-            var fechaReservaInicial = fechaComoDateTime.ToString("dd-MM-yyyy");
-            var fechaReservaFinal = nuevaFecha.ToString("dd-MM-yyyy");
-
-            Console.WriteLine("Fecha original: " + fechaReservaInicial);
-            Console.WriteLine("Nueva fecha después de sumar " + numDias + " días: " + fechaReservaFinal);
-
-        
-
-}
-}
-public static Hotel GetHotelById(int hotelId)
-{
-    var hotels = Hotel.GetHotels();
-    Hotel hotel = hotels.FirstOrDefault(h => h.ID == hotelId);
-    return hotel;
-}
 
     }
 }
